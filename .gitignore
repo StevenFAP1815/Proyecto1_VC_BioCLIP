@@ -3,3 +3,8 @@
 
 # Archivos caché
 __pycache__/
+
+# Archivos temporales
+config/species_config_2.json
+config/species_config_3.json
+config/species_config_4.json
