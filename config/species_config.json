@@ -1,0 +1,58 @@
+{
+  "templates": [
+    "a photo of a seed of {scientific_name}",
+    "a close-up photo of the seed of {scientific_name}, a plant species"
+  ],
+  "species": [
+    {
+      "id": "sp_1",
+      "scientific_name": "Citrus reticulata",
+      "common_name": "mandarina"
+    },
+    {
+      "id": "sp_2",
+      "scientific_name": "Helianthus annuus",
+      "common_name": "Girasol"
+    },
+    {
+      "id": "sp_3",
+      "scientific_name": "Zea mays",
+      "common_name": "Maíz"
+    },
+    {
+      "id": "sp_4",
+      "scientific_name": "Phaseolus vulgaris",
+      "common_name": "Frijol"
+    },
+    {
+      "id": "sp_5",
+      "scientific_name": "Solanum lycopersicum",
+      "common_name": "Tomate"
+    },
+    {
+      "id": "sp_6",
+      "scientific_name": "Pisum sativum",
+      "common_name": "Guisante"
+    },
+    {
+      "id": "sp_7",
+      "scientific_name": "Glycine max",
+      "common_name": "Soja"
+    },
+    {
+      "id": "sp_8",
+      "scientific_name": "Triticum aestivum",
+      "common_name": "Trigo"
+    },
+    {
+      "id": "sp_9",
+      "scientific_name": "Coffea arabica",
+      "common_name": "Café"
+    },
+    {
+      "id": "sp_10",
+      "scientific_name": "Malus domestica",
+      "common_name": "Manzana"
+    }
+  ]
+}
