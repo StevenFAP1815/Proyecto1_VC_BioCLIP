@@ -82,21 +82,37 @@ def load_bioclip_model(device=None):
     return bioclip_model, preprocess_val, tokenizer
 
 
-def predict_seed(image_input, top_k=3):
-    """Realiza la predicción sobre una imagen usando la capa lineal entrenada."""
+def predict_seed(image_input=None, image_path=None, top_k=3, device=None, **kwargs):
+    """Realiza la predicción sobre una imagen usando la capa lineal entrenada.
+    
+    Acepta tanto 'image_input' como 'image_path' para máxima compatibilidad con Gradio.
+    """
     global bioclip_model, preprocess_val, classifier, classes, common_names_map, DEVICE
 
+    # Si se pasa un dispositivo específico desde app.py, actualizarlo
+    if device is not None:
+        DEVICE = device
+
+    # Resolver cuál argumento trae la imagen
+    target_image = image_input if image_input is not None else image_path
+    if target_image is None:
+        raise ValueError("Se debe proporcionar 'image_input' o 'image_path'.")
+
+    # Cargar modelos si no están en memoria
     if bioclip_model is None or classifier is None:
         load_bioclip_model(DEVICE)
 
-    if isinstance(image_input, str):
-        image = Image.open(image_input).convert("RGB")
+    # Convertir a PIL si viene como ruta de texto
+    if isinstance(target_image, str):
+        image = Image.open(target_image).convert("RGB")
     else:
-        image = image_input.convert("RGB")
+        image = target_image.convert("RGB")
 
+    # Smart Crop y preprocessing
     cropped = smart_crop_pil(image)
     tensor_img = preprocess_val(cropped).unsqueeze(0).to(DEVICE)
 
+    # Inferencia con la capa lineal
     with torch.no_grad():
         features = bioclip_model.encode_image(tensor_img)
         features /= features.norm(dim=-1, keepdim=True)
