@@ -63,6 +63,12 @@
       "id": "sp_10",
       "scientific_name": "Malus domestica",
       "common_name": "Apple"
+    },
+    {
+      "id": "sp_11",
+      "scientific_name": "Avena sativa",
+      "common_name": "Avena"
     }
+
   ]
 }
