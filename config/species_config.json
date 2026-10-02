@@ -68,7 +68,11 @@
       "id": "sp_11",
       "scientific_name": "Avena sativa",
       "common_name": "Avena"
+    },
+    {
+      "id": "sp_12",
+      "scientific_name": "Zygophyllum xanthoxylon",
+      "common_name": "Bawang"
     }
-
   ]
 }
