@@ -9,7 +9,7 @@ import numpy as np
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 MODEL_PATH = "models/seed_classifier.pth"
-CONFIG_PATH = "config/species_config.json"
+CONFIG_PATH = "config/species_config_5.json"
 
 # Variables globales para reutilizar en memoria
 bioclip_model = None
