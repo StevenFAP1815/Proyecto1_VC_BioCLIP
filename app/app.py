@@ -2,7 +2,7 @@ import os
 import torch
 import gradio as gr
 from src.preprocess import process_image
-from src.predict import load_bioclip_model, predict_species
+from src.predict import load_bioclip_model, predict_seed
 
 # 1. Configurar dispositivo y cargar modelo al iniciar la aplicación
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -30,7 +30,7 @@ def classify_seed_image(input_image):
     process_image("data/raw_examples/temp_raw.jpg", TEMP_PROCESSED_PATH)
 
     # Step 2: Inferencia Zero-Shot con BioCLIP
-    predictions = predict_species(
+    predictions = predict_seed(
         image_path=TEMP_PROCESSED_PATH,
         config_path=config_path,
         model=model,
@@ -46,7 +46,7 @@ def classify_seed_image(input_image):
 with gr.Blocks(title="BioCLIP - Clasificador Zero-Shot de Semillas") as demo:
     gr.Markdown(
         """
-        # 🌱 Clasificador Zero-Shot de Semillas con BioCLIP
+        # Clasificador con BioCLIP
         Sube una imagen de una semilla para identificar su especie botánica utilizando el modelo **BioCLIP**.
         """
     )
