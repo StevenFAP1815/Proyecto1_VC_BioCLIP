@@ -7,52 +7,52 @@
     {
       "id": "sp_1",
       "scientific_name": "Citrus reticulata",
-      "common_name": "mandarina"
+      "common_name": "Tangerine"
     },
     {
       "id": "sp_2",
       "scientific_name": "Helianthus annuus",
-      "common_name": "Girasol"
+      "common_name": "Sunflower"
     },
     {
       "id": "sp_3",
       "scientific_name": "Zea mays",
-      "common_name": "Maíz"
+      "common_name": "Corn"
     },
     {
       "id": "sp_4",
       "scientific_name": "Phaseolus vulgaris",
-      "common_name": "Frijol"
+      "common_name": "Bean"
     },
     {
       "id": "sp_5",
       "scientific_name": "Solanum lycopersicum",
-      "common_name": "Tomate"
+      "common_name": "Tomato"
     },
     {
       "id": "sp_6",
       "scientific_name": "Pisum sativum",
-      "common_name": "Guisante"
+      "common_name": "Pea"
     },
     {
       "id": "sp_7",
       "scientific_name": "Glycine max",
-      "common_name": "Soja"
+      "common_name": "Soy"
     },
     {
       "id": "sp_8",
       "scientific_name": "Triticum aestivum",
-      "common_name": "Trigo"
+      "common_name": "Wheat"
     },
     {
       "id": "sp_9",
       "scientific_name": "Coffea arabica",
-      "common_name": "Café"
+      "common_name": "Coffe bean"
     },
     {
       "id": "sp_10",
       "scientific_name": "Malus domestica",
-      "common_name": "Manzana"
+      "common_name": "Apple"
     }
   ]
 }
