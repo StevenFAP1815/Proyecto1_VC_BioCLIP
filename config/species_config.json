@@ -1,7 +1,17 @@
 {
   "templates": [
     "a photo of a seed of {scientific_name}",
-    "a close-up photo of the seed of {scientific_name}, a plant species"
+    "a close-up photo of the seed of {scientific_name}, a plant species",
+    "a close-up photo of the seed of {scientific_name}",
+    "a photograph showing the seed of {scientific_name}",
+    "macro photography of {scientific_name} seed",
+    "a seed sample of {scientific_name}, a plant species",
+    "a photo of a single seed of {scientific_name}",
+    "a detailed studio photo of the seed of {scientific_name}",
+    "a high resolution image of a seed of {scientific_name}",
+    "a top view photo of a seed of {scientific_name}",
+    "an isolated seed of {scientific_name} on a dark background",
+    "a clear scientific photo of the seed of {scientific_name}"
   ],
   "species": [
     {
