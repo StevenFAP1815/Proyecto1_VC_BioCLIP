@@ -83,36 +83,32 @@ def load_bioclip_model(device=None):
 
 
 def predict_seed(image_input=None, image_path=None, top_k=3, device=None, **kwargs):
-    """Realiza la predicción sobre una imagen usando la capa lineal entrenada.
-    
-    Acepta tanto 'image_input' como 'image_path' para máxima compatibilidad con Gradio.
+    """
+    Realiza la predicción sobre una imagen.
+    Devuelve un diccionario {etiqueta: confianza} compatible con gr.Label de Gradio.
     """
     global bioclip_model, preprocess_val, classifier, classes, common_names_map, DEVICE
 
-    # Si se pasa un dispositivo específico desde app.py, actualizarlo
     if device is not None:
         DEVICE = device
 
-    # Resolver cuál argumento trae la imagen
     target_image = image_input if image_input is not None else image_path
     if target_image is None:
         raise ValueError("Se debe proporcionar 'image_input' o 'image_path'.")
 
-    # Cargar modelos si no están en memoria
     if bioclip_model is None or classifier is None:
         load_bioclip_model(DEVICE)
 
-    # Convertir a PIL si viene como ruta de texto
     if isinstance(target_image, str):
         image = Image.open(target_image).convert("RGB")
     else:
         image = target_image.convert("RGB")
 
-    # Smart Crop y preprocessing
+    # Smart Crop y preprocesamiento
     cropped = smart_crop_pil(image)
     tensor_img = preprocess_val(cropped).unsqueeze(0).to(DEVICE)
 
-    # Inferencia con la capa lineal
+    # Inferencia
     with torch.no_grad():
         features = bioclip_model.encode_image(tensor_img)
         features /= features.norm(dim=-1, keepdim=True)
@@ -122,16 +118,16 @@ def predict_seed(image_input=None, image_path=None, top_k=3, device=None, **kwar
 
     top_probs, top_indices = torch.topk(probabilities, top_k)
     
-    results = []
+    # Gradio gr.Label espera un diccionario: {"Nombre": probabilidad_flotante_entre_0_y_1}
+    label_dict = {}
     for prob, idx in zip(top_probs, top_indices):
         folder_class = classes[idx.item()]
         scientific_name = folder_class.replace("_", " ")
         common_name = common_names_map.get(folder_class, scientific_name)
         
-        results.append({
-            "scientific_name": scientific_name,
-            "common_name": common_name,
-            "confidence": round(prob.item() * 100, 2)
-        })
+        # Etiqueta combinada para visualización clara
+        display_label = f"{common_name} ({scientific_name})" if common_name != scientific_name else scientific_name
+        label_dict[display_label] = float(prob.item())
 
-    return results, cropped
+    # Retorna solo el diccionario de etiquetas para gr.Label
+    return label_dict
