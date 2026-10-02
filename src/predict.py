@@ -14,6 +14,7 @@ CONFIG_PATH = "config/species_config.json"
 # Variables globales para reutilizar en memoria
 bioclip_model = None
 preprocess_val = None
+tokenizer = None
 classifier = None
 classes = []
 common_names_map = {}
@@ -44,17 +45,22 @@ def smart_crop_pil(pil_img, padding_ratio=0.2):
         return pil_img
 
 
-def load_bioclip_model():
-    """Carga BioCLIP y los pesos del clasificador entrenado."""
-    global bioclip_model, preprocess_val, classifier, classes, common_names_map
+def load_bioclip_model(device=None):
+    """Carga BioCLIP y la capa lineal entrenada, devolviendo los objetos que app.py espera."""
+    global bioclip_model, preprocess_val, tokenizer, classifier, classes, common_names_map, DEVICE
+
+    if device is not None:
+        DEVICE = device
 
     print(f"Cargando BioCLIP en {DEVICE}...")
     bioclip_model, _, preprocess_val = open_clip.create_model_and_transforms('hf-hub:imageomics/bioclip')
+    tokenizer = open_clip.get_tokenizer('hf-hub:imageomics/bioclip')
+    
     bioclip_model = bioclip_model.to(DEVICE)
     bioclip_model.eval()
 
     if os.path.exists(MODEL_PATH):
-        print(f"Cargando clasificador desde {MODEL_PATH}...")
+        print(f"Cargando clasificador lineal desde {MODEL_PATH}...")
         checkpoint = torch.load(MODEL_PATH, map_location=DEVICE)
         classes = checkpoint['classes']
         
@@ -65,7 +71,7 @@ def load_bioclip_model():
     else:
         print(f"⚠ ADVERTENCIA: No se encontró el archivo de pesos en '{MODEL_PATH}'.")
 
-    # Cargar mapa de nombres comunes
+    # Cargar mapa de nombres comunes desde species_config.json
     if os.path.exists(CONFIG_PATH):
         with open(CONFIG_PATH, "r", encoding="utf-8") as f:
             config_data = json.load(f)
@@ -73,14 +79,15 @@ def load_bioclip_model():
                 common_names_map[sp["folder_name"]] = sp.get("common_name", sp["scientific_name"])
 
     print("¡Modelos e infraestructura cargados con éxito!")
+    return bioclip_model, preprocess_val, tokenizer
 
 
 def predict_seed(image_input, top_k=3):
-    """Realiza la predicción sobre una imagen."""
-    global bioclip_model, preprocess_val, classifier, classes, common_names_map
+    """Realiza la predicción sobre una imagen usando la capa lineal entrenada."""
+    global bioclip_model, preprocess_val, classifier, classes, common_names_map, DEVICE
 
     if bioclip_model is None or classifier is None:
-        load_bioclip_model()
+        load_bioclip_model(DEVICE)
 
     if isinstance(image_input, str):
         image = Image.open(image_input).convert("RGB")
