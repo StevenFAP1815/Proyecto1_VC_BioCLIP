@@ -74,8 +74,8 @@ if __name__ == "__main__":
     raw_dir = "data/raw_examples"
     processed_dir = "data/processed_examples"
     
-    input_file = os.path.join(raw_dir, "tangerine_02.jpg")
-    output_file = os.path.join(processed_dir, "tangerine_02.jpg")
+    input_file = os.path.join(raw_dir, "avena_07.jpg")
+    output_file = os.path.join(processed_dir, "avena_07.jpg")
     
     if os.path.exists(input_file):
         process_image(input_file, output_file)
